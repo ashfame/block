@@ -49,7 +49,7 @@ func (b *Block) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) 
 		w.WriteMsg(resp)
 
 		return dns.RcodeNameError, nil
-	}q
+	}
 
 	return plugin.NextOrFailure(b.Name(), b.Next, ctx, w, r)
 }
