@@ -38,7 +38,7 @@ func New() *Block {
 
 // ServeDNS implements the plugin.Handler interface.
 func (b *Block) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
-	state := request.Request{W: w, Req: r, Context: ctx}
+	state := request.Request{W: w, Req: r}
 
 	if b.blocked(state.Name()) {
 		blockCount.WithLabelValues(metrics.WithServer(ctx)).Inc()
@@ -49,7 +49,7 @@ func (b *Block) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) 
 		w.WriteMsg(resp)
 
 		return dns.RcodeNameError, nil
-	}
+	}q
 
 	return plugin.NextOrFailure(b.Name(), b.Next, ctx, w, r)
 }
