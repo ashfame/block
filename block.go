@@ -40,6 +40,7 @@ func New() *Block {
 func (b *Block) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
 	state := request.Request{W: w, Req: r}
 
+	log.Infof("Handling %s", state.Name())
 	if b.blocked(state.Name()) {
 		blockCount.WithLabelValues(metrics.WithServer(ctx)).Inc()
 		log.Infof("Blocked %s", state.Name())
@@ -49,6 +50,8 @@ func (b *Block) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) 
 		w.WriteMsg(resp)
 
 		return dns.RcodeNameError, nil
+	} else {
+		log.Infof("Not in blocklist")
 	}
 
 	return plugin.NextOrFailure(b.Name(), b.Next, ctx, w, r)
