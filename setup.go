@@ -3,7 +3,7 @@ package block
 import (
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
-	"github.com/coredns/coredns/plugin/metrics"
+	// "github.com/coredns/coredns/plugin/metrics"
 
 	"github.com/coredns/caddy"
 )
@@ -19,7 +19,7 @@ func setup(c *caddy.Controller) error {
 	block := New()
 
 	c.OnStartup(func() error {
-		once.Do(func() { metrics.MustRegister(c) })
+		// once.Do(func() { metrics.MustRegister(c) })
 		go func() { block.download() }()
 		go func() { block.refresh() }()
 		return nil
