@@ -37,6 +37,9 @@ func (b *Block) download() {
 	b.Unlock()
 
 	log.Infof("Block lists updated: %d domains added", domains)
+	for key, value := range b.list {
+		log.Infof("%q is the key for the value %q\n", key, value)
+	}
 }
 
 func (b *Block) refresh() {
